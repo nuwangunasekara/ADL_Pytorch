@@ -91,25 +91,31 @@ class smallAdl():
         
         self.netUpdateProperties()
     
-    def nodePruning(self,pruneIdx,nPrunedNode = 1):
-        nNewNodeCurr = self.nNodes - nPrunedNode  # prune a node
+     def nodePruning(self,pruneIdx,nPrunedNode = 1):
+        
+        # check None Type
+        toBeChecked = deleteColTensor(copy.deepcopy(self.network.linearOutput.weight.data),pruneIdx)
+        
+        if toBeChecked is not None:
+            
+            nNewNodeCurr = self.nNodes - nPrunedNode  # prune a node
         
         # prune node for current layer, output
-        self.network.linear.weight.data  = deleteRowTensor(self.network.linear.weight.data,
+            self.network.linear.weight.data  = deleteRowTensor(self.network.linear.weight.data,
                                                            pruneIdx)  # prune input weights
-        self.network.linear.bias.data    = deleteRowTensor(self.network.linear.bias.data,
+            self.network.linear.bias.data    = deleteRowTensor(self.network.linear.bias.data,
                                                            pruneIdx)  # prune input bias
-        self.network.linear.out_features = nNewNodeCurr
-        del self.network.linear.weight.grad
-        del self.network.linear.bias.grad
+            self.network.linear.out_features = nNewNodeCurr
+            del self.network.linear.weight.grad
+            del self.network.linear.bias.grad
 
         # prune input weight of classifier
-        self.network.linearOutput.weight.data = deleteColTensor(self.network.linearOutput.weight.data,pruneIdx)
-        self.network.linearOutput.in_features = nNewNodeCurr
-        del self.network.linearOutput.weight.grad
-        del self.network.linearOutput.bias.grad
+            self.network.linearOutput.weight.data = deleteColTensor(self.network.linearOutput.weight.data,pruneIdx)
+            self.network.linearOutput.in_features = nNewNodeCurr
+            del self.network.linearOutput.weight.grad
+            del self.network.linearOutput.bias.grad
         
-        self.netUpdateProperties()
+            self.netUpdateProperties()
         
     def inputGrowing(self,nNewInput = 1):
         nNewInputCurr = self.nNetInput + nNewInput
