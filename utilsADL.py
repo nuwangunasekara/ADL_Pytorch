@@ -12,6 +12,7 @@ import sklearn
 from sklearn import preprocessing
 import pdb
 import matplotlib.pyplot as plt
+import h5py
 
 class meanStdCalculator(object):
 	# developed and modified from https://github.com/pytorch/examples/blob/master/imagenet/main.py#L247-L262
@@ -63,8 +64,13 @@ class dataLoader(object):
         self.loadDataFromMatFile()
         
     def loadDataFromMatFile(self):
-        data1          = scipy.io.loadmat(self.fileName)  # change your folder
-        data           = data1.get('data')
+        matlab_7_3_format = False
+        try:
+            data1          = scipy.io.loadmat(self.fileName)  # change your folder
+        except NotImplementedError:
+            matlab_7_3_format = True
+            data1 = h5py.File(self.fileName, 'r')
+        data           = np.array(data1.get('data')) if matlab_7_3_format else data1.get('data')
         data           = torch.from_numpy(data)
         data           = data.float()
         self.data      = data[:,0:-1]

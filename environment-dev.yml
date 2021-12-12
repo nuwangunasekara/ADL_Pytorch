@@ -1,0 +1,15 @@
+#bash install_environment_dev.sh --conda_location /Users/ng98/Desktop/ADL_Pytorch_nuwan_fork/conda --python 3.9
+channels:
+- conda-forge
+- pytorch
+dependencies:
+- numpy
+- pytorch
+- pandas
+- scipy
+- scikit-learn
+- h5py
+- matplotlib
+- progressbar
+#- pip:
+#    - torch

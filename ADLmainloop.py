@@ -39,7 +39,8 @@ def ADLmain(ADLnet,dataStreams,trainingBatchSize = 1, noOfEpoch = 1, labeled = T
     nHiddenLayer = []
 
     # batch loop
-    bar = progressbar.ProgressBar(max_value=dataStreams.nBatch)
+    bar = progressbar.ProgressBar(maxval=dataStreams.nBatch)
+    bar.start()
     # bar = progressbar.ProgressBar()
     for iBatch in range(0,dataStreams.nBatch):
         # load data

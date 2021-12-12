@@ -1,6 +1,10 @@
+import sys
+
 import numpy as np
 import time 
 import copy
+
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -91,7 +95,7 @@ class smallAdl():
         
         self.netUpdateProperties()
     
-     def nodePruning(self,pruneIdx,nPrunedNode = 1):
+    def nodePruning(self,pruneIdx,nPrunedNode = 1):
         
         # check None Type
         toBeChecked = deleteColTensor(copy.deepcopy(self.network.linearOutput.weight.data),pruneIdx)
@@ -141,7 +145,7 @@ class smallAdl():
         self.netUpdateProperties()
 
 class ADL():
-    def __init__(self,nInput,nOutput,df = 0.001,plt = 0.05,alpha_w = 0.0005,alpha_d = 0.0001,LR = 0.02,trMode = 1):
+    def __init__(self,nInput,nOutput,predictions_dump_file=sys.stdout, df = 0.001,plt = 0.05,alpha_w = 0.0005,alpha_d = 0.0001,LR = 0.02,trMode = 1):
         # trMode 1 > only take the winning layer parameter
         # trMode 2 > take the winning layer parameter and all previous layer whose voting weight equals 0
         # # random seed control
@@ -188,6 +192,8 @@ class ADL():
         # properties
         self.nHiddenLayer = 1
         self.nHiddenNode  = nOutput
+
+        self.predictions_dump_file = sys.stdout if predictions_dump_file is sys.stdout else open(predictions_dump_file, 'w')
     
     def updateNetProperties(self):
         self.nHiddenLayer = len(self.net)
@@ -446,8 +452,8 @@ class ADL():
             
             # confirm the cut point
             for iCut in cutPointCandidate:
-                miu_E       = np.mean(combinedAccMatrix[0:iCut])
-                nE          = len(combinedAccMatrix[0:iCut])
+                miu_E       = np.mean(combinedAccMatrix[0:iCut+1])
+                nE          = len(combinedAccMatrix[0:iCut+1])
                 errorBoundE = np.sqrt((1/(2*nE))*np.log(1/self.alphaDrift))
                 if (miu_F + errorBoundF) <= (miu_E + errorBoundE):
                     cutPoint = iCut
@@ -768,7 +774,12 @@ class ADL():
                 self.batchLabel = torch.cat((self.batchLabel,adversarialBatchLabel),0)
                 # print('Total sample size',self.batchData.shape[0])
         
-    # ============================= Testing ============================= 
+    # ============================= Testing =============================
+    def dump(self, label):
+        df = pd.DataFrame(self.multiClassProbability.numpy())
+        df['label'] = label.numpy()
+        print(df.to_csv(path_or_buf=None, header=False, index=False), file=self.predictions_dump_file, flush=True)
+
     def testing(self,x,label,device = torch.device('cpu')):
         # load data
         x     = x.to(device)
@@ -783,6 +794,7 @@ class ADL():
         
         loss                = self.criterion(self.scoresTest,label)
         self.testingLoss    = loss.detach().item()
+        self.dump(label)
         correct             = (self.predictedLabel == label).sum().item()
         self.accuracy       = 100*correct/(self.predictedLabel == label).shape[0]  # 1: correct, 0: wrong
         self.trueClassLabel = label
