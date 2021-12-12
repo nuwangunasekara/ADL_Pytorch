@@ -25,12 +25,12 @@ batch_size = args.batch_size
 trainingBatchSize = args.batch_size
 
 datasets = [
-            "elecNormNew",
-            "nomao",
-            "WISDM_ar_v1.1_transformed",
-            "covtypeNorm",
+            # "elecNormNew",
+            # "nomao",
+            # "WISDM_ar_v1.1_transformed",
+            # "covtypeNorm",
             #
-            "airlines",
+            # "airlines",
             "RBF_f",
             "RBF_m",
             "AGR_a",

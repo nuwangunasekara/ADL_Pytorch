@@ -1,15 +1,7 @@
 #!/bin/bash
 
-################################################################################
-# Copyright (c) 2021 ContinualAI.                                              #
-# Copyrights licensed under the MIT License.                                   #
-# See the accompanying LICENSE file for terms.                                 #
-#                                                                              #
-# Date: 09-02-2021                                                             #
-# Author(s): Gabriele Graffieti                                                #
-# E-mail: contact@continualai.org                                              #
-# Website: avalanche.continualai.org                                           #
-################################################################################
+#bash install_environment_dev.sh --conda_location /Users/ng98/Desktop/ADL_Pytorch_nuwan_fork/conda --python 3.9
+
 eval "$(conda shell.bash hook)"
 conda init bash
 
