@@ -1,0 +1,1 @@
+grep 'Dataset,' /Scratch/ng98/ADL_Arch/results/run_*/output.txt |awk -F ',' '{printf "%s,%s\n", $2, $3}'
