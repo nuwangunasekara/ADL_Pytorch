@@ -71,7 +71,7 @@ class dataLoader(object):
             matlab_7_3_format = True
             data1 = h5py.File(self.fileName, 'r')
         data           = np.array(data1.get('data')) if matlab_7_3_format else data1.get('data')
-        data           = torch.from_numpy(data)
+        data           = torch.from_numpy(data.astype('int32') if data.dtype == np.uint16 else data)
         data           = data.float()
         self.data      = data[:,0:-1]
         label          = data[:,-1]
