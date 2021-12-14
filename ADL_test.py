@@ -30,20 +30,20 @@ datasets = [
             # "WISDM_ar_v1.1_transformed",
             # "covtypeNorm",
             #
-            # "airlines",
-            "RBF_f",
-            "RBF_m",
-            "AGR_a",
-            "AGR_g",
-            "LED_a",
-            "LED_g",
-            #
-            # "kdd99",
-            #
-            "gisette_scale_class_Nominal",
-            "epsilon_normalized.t_class_Nominal",
-            "SVHN.scale.t.libsvm.sparse_class_Nominal",
-            "spam_corpus",
+            "airlines",
+            # "RBF_f",
+            # "RBF_m",
+            # "AGR_a",
+            # "AGR_g",
+            # "LED_a",
+            # "LED_g",
+            # #
+            # # "kdd99",
+            # #
+            # "gisette_scale_class_Nominal",
+            # "epsilon_normalized.t_class_Nominal",
+            # "SVHN.scale.t.libsvm.sparse_class_Nominal",
+            # "spam_corpus",
             "sector.scale.libsvm.class_Nominal_sparse"
             ]
 
