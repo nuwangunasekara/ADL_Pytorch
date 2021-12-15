@@ -1,1 +1,4 @@
 grep 'Dataset,' /Scratch/ng98/ADL_Arch/results/run_*/output.txt |awk -F ',' '{printf "%s,%s\n", $2, $3}'
+
+predictions clean up
+sed '/^$/d' -i /Users/ng98/Desktop/datasets/NEW/mat/airlines_predictions.csv

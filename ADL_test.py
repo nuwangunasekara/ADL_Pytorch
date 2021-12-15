@@ -12,7 +12,7 @@ parser.add_argument('--data_dir', type=str, default='/Users/ng98/Desktop/dataset
                     help='Save Directory')
 parser.add_argument('--save_dir', type=str, default='/Users/ng98/Desktop/datasets/NEW/mat/',
                     help='Save Directory')
-parser.add_argument('--random_seed', type=int, default=0, help='Random seed')
+parser.add_argument('--random_seed', type=int, default=1, help='Random seed')
 parser.add_argument('--batch_size', type=int, default=1, help='Batch size for test and train')
 args = parser.parse_args()
 
@@ -30,7 +30,7 @@ datasets = [
             # "WISDM_ar_v1.1_transformed",
             # "covtypeNorm",
             #
-            "airlines",
+            # "airlines",
             # "RBF_f",
             # "RBF_m",
             # "AGR_a",
@@ -38,13 +38,13 @@ datasets = [
             # "LED_a",
             # "LED_g",
             # #
-            # # "kdd99",
+            "kdd99",
             # #
             # "gisette_scale_class_Nominal",
             # "epsilon_normalized.t_class_Nominal",
             # "SVHN.scale.t.libsvm.sparse_class_Nominal",
             # "spam_corpus",
-            "sector.scale.libsvm.class_Nominal_sparse"
+            # "sector.scale.libsvm.class_Nominal_sparse"
             ]
 
 for d in datasets:
