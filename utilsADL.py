@@ -73,7 +73,11 @@ class dataLoader(object):
         data           = np.array(data1.get('data')) if matlab_7_3_format else data1.get('data')
         data           = torch.from_numpy(data.astype('int32') if data.dtype == np.uint16 else data)
         data           = data.float()
-        data           = torch.t(data) if self.fileName.find('sector') > -1 or self.fileName.find('kdd99') > -1 else data
+        data           = torch.t(data) if self.fileName.find('sector') > -1 or \
+                                          self.fileName.find('kdd99') > -1 or \
+                                          self.fileName.find('spam') > -1 else data
+        # Set any nan to 0
+        data[torch.isnan(data)] = 0
         self.data      = data[:,0:-1]
         label          = data[:,-1]
         self.label     = label.long()

@@ -27,7 +27,7 @@ trainingBatchSize = args.batch_size
 datasets = [
             # "elecNormNew",
             # "nomao",
-            # "WISDM_ar_v1.1_transformed",
+            "WISDM_ar_v1.1_transformed",
             # "covtypeNorm",
             #
             # "airlines",
@@ -38,7 +38,7 @@ datasets = [
             # "LED_a",
             # "LED_g",
             # #
-            "kdd99",
+            # "kdd99",
             # #
             # "gisette_scale_class_Nominal",
             # "epsilon_normalized.t_class_Nominal",

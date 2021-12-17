@@ -9,11 +9,12 @@ end
 
 dataset_dir = "/Users/ng98/Desktop/datasets/NEW/unzipped/"
 save_dir = "/Users/ng98/Desktop/datasets/NEW/mat/"
-% datasets = ["covtypeNorm" "epsilon_normalized.t_class_Nominal" "AGR_g" "real-sim.libsvm.class_Nominal_sparse" "elecNormNew" "SVHN.scale.t.libsvm.sparse_class_Nominal" "sector.scale.libsvm.class_Nominal_sparse" "RBF_m" ]
-datasets = ["kdd99"]
+% datasets = ["WISDM_ar_v1.1_transformed covtypeNorm" "epsilon_normalized.t_class_Nominal" "AGR_g" "real-sim.libsvm.class_Nominal_sparse" "elecNormNew" "SVHN.scale.t.libsvm.sparse_class_Nominal" "sector.scale.libsvm.class_Nominal_sparse" "RBF_m" ]
+% datasets = ["kdd99"]
 % datasets = ["gisette_scale_class_Nominal"]
 % datasets = ["sector.scale.libsvm.class_Nominal_sparse"]
 % datasets = ["spam_corpus"]
+datasets = ["WISDM_ar_v1.1_transformed"]
 for datasetName = datasets
     in_f = strcat(dataset_dir, strcat(datasetName,'.arff'))
     out_f = strcat(save_dir, strcat(datasetName,'.mat'))
