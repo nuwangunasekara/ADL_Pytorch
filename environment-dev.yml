@@ -7,8 +7,7 @@ dependencies:
 - pandas
 - scipy
 - scikit-learn
-- h5py=3.2
 - matplotlib
 - progressbar
-#- pip:
-#    - torch
+- pip:
+    - h5py==3.2
