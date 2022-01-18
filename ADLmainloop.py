@@ -11,7 +11,7 @@ from sklearn.metrics import f1_score
 import progressbar
 import pdb
 
-def ADLmain(ADLnet,dataStreams,trainingBatchSize = 1, noOfEpoch = 1, labeled = True, nLabeled = 1):
+def ADLmain(ADLnet,dataStreams,trainingBatchSize = 1, noOfEpoch = 1, labeled = True, nLabeled = 1, normalize=True):
     # random seed control
     # np.random.seed(0)
     # torch.manual_seed(0)
@@ -38,6 +38,12 @@ def ADLmain(ADLnet,dataStreams,trainingBatchSize = 1, noOfEpoch = 1, labeled = T
     nHiddenNode  = []
     nHiddenLayer = []
 
+    # Normalization
+    sumOfValues = None
+    sumOfSquares = None
+    samplesSeen = 0
+
+
     # batch loop
     bar = progressbar.ProgressBar(maxval=dataStreams.nBatch)
     bar.start()
@@ -48,6 +54,25 @@ def ADLmain(ADLnet,dataStreams,trainingBatchSize = 1, noOfEpoch = 1, labeled = T
         batchData  = dataStreams.data[(batchIdx-1)*dataStreams.batchSize:batchIdx*dataStreams.batchSize]
         batchLabel = dataStreams.label[(batchIdx-1)*dataStreams.batchSize:batchIdx*dataStreams.batchSize]
         nBatchData = batchData.shape[0]
+
+        if normalize:
+            zeros = torch.zeros_like(batchData.detach())
+            samplesSeen += batchData.shape[0]
+            if sumOfValues is None:
+                sumOfValues = batchData.detach()
+                sumOfSquares = torch.pow(batchData.detach(), 2)
+                batchData = zeros
+            else:
+                sumOfValues += batchData.detach()
+                sumOfSquares += torch.pow(batchData.detach(), 2)
+
+                mean = sumOfValues.detach() / samplesSeen
+                variance = (sumOfSquares.detach() - (torch.pow(sumOfValues.detach(), 2) / samplesSeen)) / samplesSeen
+                sd = torch.sqrt(variance.detach()).detach()
+                batchData = torch.where( sd > 0.0, (batchData.detach() - mean.detach()) / (3 * sd), zeros).detach()
+                # batchData = torch.nan_to_num(batchData.detach(), nan=0.0, neginf=0.0, posinf=1.0)
+
+
 
         # testing
         ADLnet.testing(batchData,batchLabel)

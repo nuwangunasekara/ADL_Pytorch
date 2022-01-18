@@ -58,12 +58,12 @@ class meanStdCalculator(object):
 
 
 class dataLoader(object):
-    def __init__(self,fileName,batchSize = 500):
+    def __init__(self,fileName,batchSize = 500, onehot_columns=None):
         self.fileName  = fileName
         self.batchSize = batchSize
-        self.loadDataFromMatFile()
+        self.loadDataFromMatFile(onehot_columns)
         
-    def loadDataFromMatFile(self):
+    def loadDataFromMatFile(self, onehot_columns=None):
         matlab_7_3_format = False
         try:
             data1          = scipy.io.loadmat(self.fileName)  # change your folder
@@ -78,6 +78,12 @@ class dataLoader(object):
                                           self.fileName.find('spam') > -1 else data
         # Set any nan to 0
         data[torch.isnan(data)] = 0
+
+        if onehot_columns is not None:
+            data = pd.DataFrame(data.numpy())
+            data = pd.get_dummies(data, columns=onehot_columns)
+            data = torch.tensor(data.values)
+
         self.data      = data[:,0:-1]
         label          = data[:,-1]
         self.label     = label.long()
